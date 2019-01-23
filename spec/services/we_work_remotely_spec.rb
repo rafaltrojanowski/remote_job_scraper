@@ -6,7 +6,7 @@ RSpec.describe Services::WeWorkRemotely do
   let(:args) {{ }}
 
   after do
-    FileUtils.rm("spec/fixtures/data/we_work_remotely.csv")
+    # FileUtils.rm("spec/fixtures/data/we_work_remotely.csv")
   end
 
   describe '#collect_jobs' do

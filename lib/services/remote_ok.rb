@@ -19,12 +19,15 @@ module Services
       CSV.open(file_name, 'w') do |csv|
         doc.css(JOB_ITEM_SELECTOR).each do |link|
           job_url = "#{HOST}#{link["data-url"]}"
-          puts "Processing #{job_url}..."
+          puts "[Info] Processing #{job_url}..."
           job_page = Nokogiri::HTML(open(job_url))
           offer_text = job_page.css('td.heading').to_s
+
           location = Support::OfferParser.get_location(offer_text)
-          region = nil
-          csv << [job_url, location, region]
+          region   = nil
+          keywords = Support::OfferParser.get_keywords(offer_text)
+
+          csv << [job_url, location, region, keywords]
         end
       end
 

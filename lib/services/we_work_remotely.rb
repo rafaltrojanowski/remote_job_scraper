@@ -21,12 +21,16 @@ module Services
         doc.css(JOB_ITEM_SELECTOR).each do |link|
           if link["href"].start_with?("/remote-jobs")
             job_url = "#{HOST}#{link["href"]}"
-            puts "Processing #{job_url}..."
+            puts "[Info] Processing #{job_url}..."
             job_page = Nokogiri::HTML(open(job_url))
+            offer_text = job_page.css('.listing-container').to_s
+
             region = job_page.css('span.region').first
             location = job_page.css('span.location').first
 
-            csv << [job_url, location, region]
+            keywords = Support::OfferParser.get_keywords(offer_text)
+
+            csv << [job_url, location, region, keywords]
           end
         end
       end
