@@ -1,8 +1,13 @@
 # RemoteJobScraper
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/remote_job_scraper`. To experiment with that code, run `bin/console` for an interactive prompt.
+Ruby gem that collects job offers for remote positions with ease.
 
-TODO: Delete this and the text above, and describe your gem
+Going through many job listings and finding the rigth one
+may be time consuming process. That's why this tool has been built.
+It allows to automate the process, retrieve necessary data
+and store it in CSV file in just a few minutes.
+The main focus is to inform an user about the location (time-zone) required.
+
 
 ## Installation
 
@@ -22,10 +27,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    $ bundle exec exe/remote_job_scraper
 
-Supported Ruby versions:
-- 2.4.1
+
+* Tested with Ruby versions:
+
+  - 2.4.1 [X]
 
 ## Development
 
