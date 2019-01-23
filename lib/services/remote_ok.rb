@@ -8,12 +8,12 @@ module Services
     JOB_ITEM_SELECTOR = 'tr.job'.freeze
     STORE_DIR = 'data/remote_ok'
 
-    def initialize(args)
-      super(args)
+    def initialize(args = {})
+      super(args = {})
     end
 
     def collect_jobs
-      puts "Getting the data from #{url} at #{@current_time}..."
+      puts "[Info] Getting the data from #{url} at #{@current_time}..."
       FileUtils.mkdir_p STORE_DIR
 
       CSV.open(file_name, 'w') do |csv|
@@ -28,14 +28,14 @@ module Services
         end
       end
 
-      puts "Collected #{@count} job offers from #{url}. Data stores in: #{file_name}."
+      puts "[Done] Collected #{@count} job offers from #{url}. Data stores in: #{file_name}."
     end
 
     private
 
     def get_count
       count = doc.css(JOB_ITEM_SELECTOR).map { |link| link['data-url'] }.size
-      puts "There is #{count} remote jobs available."
+      puts "[Info] There is #{count} remote jobs available."
       count
     end
   end

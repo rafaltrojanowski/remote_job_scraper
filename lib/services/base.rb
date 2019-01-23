@@ -8,7 +8,7 @@ module Services
       @url = build_url
       @doc = Nokogiri::HTML(open(@url))
       @current_time = Time.new
-      @timestamp = @current_time.to_i
+      @timestamp = @current_time.strftime("%Y%m%d%H%M%S")
       @count = get_count
     end
 

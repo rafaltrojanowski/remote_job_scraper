@@ -9,9 +9,14 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Rafał Trojanowski"]
   spec.email         = ["rt.trojanowski@gmail.com"]
 
-  spec.summary       = %q{Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{Write a longer description or delete this line.}
-  spec.homepage      = ""
+  spec.summary       = %q{Ruby gem that collects job offers for remote positions with ease.}
+  spec.description   = %q{Going through many job listings and finding the rigth one
+                          may be time consuming process. That's why this tool has been built.
+                          It allows to automate the process, retrieve necessary data
+                          and store it in CSV file in just a few minutes.
+                          The main focus is to inform an user about the location (time-zone) required.
+                       }
+  spec.homepage      = "https://github.com/rafaltrojanowski/remote_job_scraper"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -31,6 +36,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "nokogiri"
+  spec.add_dependency "thor"
 
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
