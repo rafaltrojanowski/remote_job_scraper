@@ -32,7 +32,7 @@ Or install it yourself as:
 
 * Tested with Ruby versions:
 
-  - 2.4.1 [X]
+  * [x] 2.4.1
 
 ## Development
 
