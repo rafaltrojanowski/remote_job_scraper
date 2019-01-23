@@ -22,6 +22,12 @@ Software Development Engineer in Test (SDET)
 """
   }
 
+  let(:exampe_4) {
+'''
+We’re looking for a full time UK-based, permanent addition to the technical team. In joining us, you will be helping us build primarily slot games formulated by our clients; taking initial designs and specifications and seeing them through to complete products. You will also help improve and maintain our cutting edge core framework, which is used as the foundation for all our games.
+'''
+  }
+
   describe 'get_location' do
     context 'example 1' do
       it 'returns location' do
@@ -36,8 +42,14 @@ Software Development Engineer in Test (SDET)
     end
 
     context 'example 3' do
-      it 'returns nil' do
-        expect(Support::OfferParser.get_location(exampe_3)).to be_nil
+      it 'returns empty string' do
+        expect(Support::OfferParser.get_location(exampe_3)).to eq('')
+      end
+    end
+
+    context 'when UK-based' do
+      it 'returns Uk' do
+        expect(Support::OfferParser.get_location(exampe_4)).to eq('Uk')
       end
     end
   end
