@@ -12,15 +12,32 @@ module Services
     JOB_ITEM_SELECTOR = 'li.job-offers__item a'.freeze
     STORE_DIR = 'data/jobs_rails42'.freeze
 
-    def initialize(args = {})
-      super(args = {})
+    NUMBER_OF_PAGES = 10
+
+    def initialize(job_type: :programming)
+      @job_type = job_type
+      @url = build_url
+      @doc = nil
+      @current_time = Time.new
+      @timestamp = @current_time.strftime("%Y%m%d%H%M%S")
+      @count = get_count
     end
 
     def collect_jobs
-      puts "[Info] Getting the data from #{url} at #{@current_time}..."
+      (1..NUMBER_OF_PAGES).to_a.each do |page|
+        current_page = "#{@url}?page=#{page}"
+        doc = Nokogiri::HTML(open_page(current_page))
+        process_page(doc, current_page, page)
+      end
+    end
+
+    private
+
+    def process_page(doc, page_url, page)
+      puts "[Info] Getting the data from #{page_url} at #{@current_time}..."
       FileUtils.mkdir_p STORE_DIR
 
-      CSV.open(file_name, 'w') do |csv|
+      CSV.open(file_name, 'ab') do |csv|
         doc.css(JOB_ITEM_SELECTOR).each do |link|
           job_url = "#{HOST}#{link["href"]}"
           puts "[Info] Processing #{job_url}..."
@@ -35,15 +52,13 @@ module Services
         end
       end
 
-      puts "[Done] Collected #{@count} job offers from #{url}. Data stores in: #{file_name}."
+      puts "[Done] Collected #{@count} job offers from #{url}. Data stores in: #{file_name}." if page == NUMBER_OF_PAGES
     end
 
     private
 
     def get_count
-      count = doc.css(JOB_ITEM_SELECTOR).map { |link| link['href'] }.size
-      puts "[Info] There is #{count} remote jobs available."
-      count
+      25 * NUMBER_OF_PAGES
     end
   end
 end

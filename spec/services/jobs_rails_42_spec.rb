@@ -6,7 +6,7 @@ RSpec.describe Services::JobsRails42 do
   let(:args) {{ }}
 
   after do
-    # FileUtils.rm("spec/fixtures/data/jobs_rails42.csv")
+    FileUtils.rm("spec/fixtures/data/jobs_rails42.csv")
   end
 
   describe '#collect_jobs' do
@@ -18,7 +18,7 @@ RSpec.describe Services::JobsRails42 do
 
     it 'stores data in CSV file' do
       rows = CSV.foreach("spec/fixtures/data/jobs_rails42.csv").map(&:each)
-      expect(rows.size).to eq(25)
+      expect(rows.size).to eq(250)
     end
   end
 end
