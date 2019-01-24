@@ -22,7 +22,7 @@ module Services
           if link["href"].start_with?("/remote-jobs")
             job_url = "#{HOST}#{link["href"]}"
             puts "[Info] Processing #{job_url}..."
-            job_page = Nokogiri::HTML(open(job_url))
+            job_page = Nokogiri::HTML(open_page(job_url))
             offer_text = job_page.css('.listing-container').to_s
 
             region = job_page.css('span.region').first

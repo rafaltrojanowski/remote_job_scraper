@@ -6,13 +6,27 @@ module Services
     def initialize(job_type: :programming)
       @job_type = job_type
       @url = build_url
-      @doc = Nokogiri::HTML(open(@url))
+      @doc = Nokogiri::HTML(open_page(@url))
       @current_time = Time.new
       @timestamp = @current_time.strftime("%Y%m%d%H%M%S")
       @count = get_count
     end
 
+    def open_page(url)
+      sleep(rand(0..2.0)) unless ENV['RAILS_ENV'] == 'test' # less mechanical behaviour
+
+      if ENV['RAILS_ENV'] == 'test'
+        open(url)
+      else
+        open(url, 'User-Agent' => user_agent)
+      end
+    end
+
     private
+
+    def user_agent
+      Support::UserAgent::LIST.sample
+    end
 
     def build_url
       case job_type
