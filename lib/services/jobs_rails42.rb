@@ -37,7 +37,7 @@ module Services
       puts "[Info] Getting the data from #{page_url} at #{@current_time}..."
       FileUtils.mkdir_p STORE_DIR
 
-      CSV.open(file_name, 'ab') do |csv|
+      CSV.open(filepath, 'ab') do |csv|
         doc.css(JOB_ITEM_SELECTOR).each do |link|
           job_url = "#{HOST}#{link["href"]}"
           puts "[Info] Processing #{job_url}..."
@@ -52,7 +52,7 @@ module Services
         end
       end
 
-      puts "[Done] Collected #{@count} job offers from #{url}. Data stores in: #{file_name}." if page == NUMBER_OF_PAGES
+      puts "[Done] Collected #{@count} job offers from #{url}. Data stores in: #{filepath}." if page == NUMBER_OF_PAGES
     end
 
     private

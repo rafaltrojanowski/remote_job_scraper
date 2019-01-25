@@ -2,11 +2,11 @@ require 'spec_helper'
 
 RSpec.describe Services::JobsRails42 do
 
-  subject { described_class.new(args) }
-  let(:args) {{ }}
+  subject { described_class.new() }
+  let(:output_file) { Dir.glob('spec/fixtures/data/jobs_rails42/*').first }
 
   after do
-    FileUtils.rm("spec/fixtures/data/jobs_rails42.csv")
+    FileUtils.rm(output_file)
   end
 
   describe '#collect_jobs' do
@@ -17,7 +17,7 @@ RSpec.describe Services::JobsRails42 do
     end
 
     it 'stores data in CSV file' do
-      rows = CSV.foreach("spec/fixtures/data/jobs_rails42.csv").map(&:each)
+      rows = CSV.foreach(output_file).map(&:each)
       expect(rows.size).to eq(250)
     end
   end

@@ -39,10 +39,13 @@ module Services
         end
     end
 
-    def file_name
-      return "spec/fixtures/data/#{underscore(self.class.name.split('::').last)}.csv" if ENV["RAILS_ENV"] == 'test'
-
+    def filepath
+      return test_filepath if ENV["RAILS_ENV"] == 'test'
       "#{self.class::STORE_DIR}/#{@timestamp}.csv"
+    end
+
+    def test_filepath
+      "spec/fixtures/data/#{underscore(self.class.name.split('::').last)}/#{@timestamp}.csv"
     end
 
     # https://stackoverflow.com/a/5622585

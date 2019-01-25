@@ -2,11 +2,11 @@ require 'spec_helper'
 
 RSpec.describe Services::RemoteOk do
 
-  subject { described_class.new(args) }
-  let(:args) {{ }}
+  subject { described_class.new() }
+  let(:output_file) { Dir.glob('spec/fixtures/data/remote_ok/*').first }
 
   after do
-    # FileUtils.rm("spec/fixtures/data/remote_ok.csv")
+    # FileUtils.rm(output_file)
   end
 
   describe '#collect_jobs' do
@@ -17,7 +17,7 @@ RSpec.describe Services::RemoteOk do
     end
 
     it 'stores data in CSV file' do
-      rows = CSV.foreach("spec/fixtures/data/remote_ok.csv").map(&:each)
+      rows = CSV.foreach(output_file).map(&:each)
       expect(rows.size).to eq(906)
     end
   end

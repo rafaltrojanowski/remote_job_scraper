@@ -6,6 +6,7 @@ require 'services/jobs_rails42'
 
 require 'support/offer_parser'
 require 'support/user_agent'
+require 'support/spreadsheet_creator'
 
 require 'nokogiri'
 require 'open-uri'
@@ -13,9 +14,10 @@ require 'csv'
 require "thor"
 
 module RemoteJobScraper
-  class CLI < Thor
 
-    AVAILABLE_SERVICES = %w(we_work_remotely remote_ok 42jobs_rails)
+  AVAILABLE_SERVICES = %w(we_work_remotely remote_ok 42jobs_rails)
+
+  class CLI < Thor
 
     desc 'collect_jobs', 'Retrieves data from all services'
     def collect_jobs
@@ -38,6 +40,11 @@ module RemoteJobScraper
       end
     end
 
+    desc 'generate_summary', 'Collect all data and export to XLS file'
+    def generate_summary
+      Support::SpreadsheetCreator.generate
+    end
+
     desc 'clean_up', 'Removes all stored data'
     def clean_up
       puts "This command will remote all stored data."
@@ -49,5 +56,9 @@ module RemoteJobScraper
       puts "Removed data."
     end
 
+  end
+
+  def self.root
+    File.dirname __dir__
   end
 end
