@@ -6,7 +6,7 @@ RSpec.describe Sites::WeWorkRemotely do
   let(:output_file) { Dir.glob('spec/fixtures/data/we_work_remotely/*').first }
 
   after do
-    # FileUtils.rm(output_file)
+    FileUtils.rm(output_file)
   end
 
   describe '#collect_jobs' do

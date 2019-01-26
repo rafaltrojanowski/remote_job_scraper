@@ -16,9 +16,16 @@ module Support
         end
       end
 
-      book.write path.concat(
+      FileUtils.mkdir_p absolute_path(path)
+
+      book.write absolute_path(path).concat(
         Time.now.strftime("%Y%m%d%H%M%S").concat('_remote_jobs_summary.xls')
       )
+    end
+
+    def self.absolute_path(path)
+      return path unless ENV['RAILS_ENV'] == 'test'
+      "#{RemoteJobScraper.root}/spec/fixtures/#{path}"
     end
 
     def self.dirnames
