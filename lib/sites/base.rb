@@ -1,4 +1,4 @@
-module Services
+module Sites
   class Base
 
     attr_reader :job_type, :doc, :url

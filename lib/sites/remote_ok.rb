@@ -1,6 +1,6 @@
 require_relative 'base'
 
-module Services
+module Sites
   class RemoteOk < Base
 
     HOST = 'https://remoteok.io'.freeze

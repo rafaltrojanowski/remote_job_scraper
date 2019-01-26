@@ -1,6 +1,6 @@
 require_relative 'base'
 
-module Services
+module Sites
   class RailsJobs < Base
 
     HOST = 'https://www.railsjobs.com'.freeze

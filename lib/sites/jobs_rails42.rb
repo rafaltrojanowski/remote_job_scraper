@@ -1,4 +1,4 @@
-module Services
+module Sites
   class JobsRails42 < Base
 
     # @TODO/NOTE: There is pagination on this site, it would be cool to find a way

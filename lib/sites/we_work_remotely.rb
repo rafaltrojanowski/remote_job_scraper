@@ -1,6 +1,6 @@
 require_relative 'base'
 
-module Services
+module Sites
   class WeWorkRemotely < Base
 
     HOST = 'https://weworkremotely.com'.freeze

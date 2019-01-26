@@ -1,6 +1,6 @@
 require_relative 'base'
 
-module Services
+module Sites
   class ElixirRadar < Base
 
     HOST = 'http://plataformatec.com.br/'.freeze
