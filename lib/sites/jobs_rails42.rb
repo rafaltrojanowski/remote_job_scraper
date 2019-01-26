@@ -12,19 +12,18 @@ module Sites
     JOB_ITEM_SELECTOR = 'li.job-offers__item a'.freeze
     STORE_DIR = 'data/jobs_rails42'.freeze
 
-    NUMBER_OF_PAGES = 10
-
-    def initialize(job_type: :programming)
+    def initialize(job_type: :programming, total_pages: 4)
       @job_type = job_type
       @url = build_url
       @doc = nil
       @current_time = Time.new
       @timestamp = @current_time.strftime("%Y%m%d%H%M%S")
+      @total_pages = total_pages
       @count = get_count
     end
 
     def collect_jobs
-      (1..NUMBER_OF_PAGES).to_a.each do |page|
+      (1..@total_pages).to_a.each do |page|
         current_page = "#{@url}?page=#{page}"
         doc = Nokogiri::HTML(open_page(current_page))
         process_page(doc, current_page, page)
@@ -45,20 +44,19 @@ module Sites
           offer_text = job_page.css('.job-offer__description').to_s
 
           location = Support::OfferParser.get_location(offer_text)
-          region   = nil
           keywords = Support::OfferParser.get_keywords(offer_text)
 
-          csv << [job_url, location, region, keywords]
+          csv << [job_url, location, keywords]
         end
       end
 
-      puts "[Done] Collected #{@count} job offers from #{url}. Data stores in: #{filepath}." if page == NUMBER_OF_PAGES
+      puts "[Done] Collected #{@count} job offers from #{url}. Data stores in: #{filepath}." if page == @total_pages
     end
 
     private
 
     def get_count
-      25 * NUMBER_OF_PAGES
+      25 * @total_pages
     end
   end
 end

@@ -24,10 +24,9 @@ module Sites
           offer_text = job_page.css('td.heading').to_s
 
           location = Support::OfferParser.get_location(offer_text)
-          region   = nil
           keywords = Support::OfferParser.get_keywords(offer_text)
 
-          csv << [job_url, location, region, keywords]
+          csv << [job_url, location, keywords]
         end
       end
 
