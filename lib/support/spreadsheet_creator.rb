@@ -10,6 +10,7 @@ module Support
       dirnames.each_with_index do |dirname, index|
         file = Dir.glob(dirname).first
         sheet = book.create_worksheet name: dirname.split("/")[-2]
+        next if file.nil?
 
         CSV.foreach(file).with_index(0) do |row, index|
           sheet.row(index).push(*(Spreadsheet::Link.new row[0]), *row[1..-1])
@@ -37,9 +38,9 @@ module Support
         ]
       else
         [
-          "#{RemoteJobScraper.root}/data/remote_ok/*",
-          "#{RemoteJobScraper.root}/data/we_work_remotely/*",
-          "#{RemoteJobScraper.root}/data/jobs_rails42/*"
+          "#{Dir.pwd}/data/remote_ok/*",
+          "#{Dir.pwd}/data/we_work_remotely/*",
+          "#{Dir.pwd}/data/jobs_rails42/*"
         ]
       end
     end

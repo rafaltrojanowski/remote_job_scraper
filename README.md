@@ -13,10 +13,10 @@ Going through many job listings and finding the right one may be a time-consumin
 
     $ remote_job_scraper
 
-* Tested with Ruby versions:
+* Supported Ruby versions:
 
   * [x] 2.4.1
-  * [x] 2.0.0
+  * [ ] 2.0.0 (https://github.com/rafaltrojanowski/remote_job_scraper/issues/1)
 
 ## Development
 
