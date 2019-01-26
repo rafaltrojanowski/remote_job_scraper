@@ -2,11 +2,7 @@
 
 Ruby gem that collects job offers for remote positions with ease.
 
-Going through many job listings and finding the rigth one
-may be time consuming process. That's why this tool has been built.
-It allows to automate the process, retrieve necessary data
-and store it in CSV file in just a few minutes.
-The main focus is to inform an user about the location (time-zone) required.
+Going through many job listings and finding the right one may be a time-consuming process. That's why this tool has been built. It allows to automate the process, retrieve necessary data and store it in CSV/Excel file in just a few minutes. The main focus is to inform a user about the location (time-zone) required for a position.
 
 
 ## Installation
