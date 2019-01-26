@@ -1,4 +1,4 @@
-# RemoteJobScraper
+# RemoteJobScraper 💻🌏
 
 Ruby gem that collects job offers for remote positions with ease.
 
