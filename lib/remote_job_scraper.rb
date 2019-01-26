@@ -15,20 +15,20 @@ require "thor"
 
 module RemoteJobScraper
 
-  AVAILABLE_SERVICES = %w(we_work_remotely remote_ok 42jobs_rails)
+  AVAILABLE_SITES = %w(we_work_remotely remote_ok 42jobs_rails)
 
   class CLI < Thor
 
-    desc 'collect_jobs', 'Retrieves data from all sites'
+    desc 'collect_jobs', "Retrieves data from #{AVAILABLE_SITES.join(', ')}"
     def collect_jobs
       [Sites::WeWorkRemotely, Sites::RemoteOk].each do |klass|
         klass.new.collect_jobs
       end
     end
 
-    desc 'collect_jobs_from', 'Retrieves data from specified service'
-    def collect_jobs_from(service_name)
-      case service_name
+    desc 'collect_jobs_from SITE', "Retrieves data from SITE, e.g. #{AVAILABLE_SITES.sample}"
+    def collect_jobs_from(site)
+      case site
       when 'we_work_remotely'
         then Sites::WeWorkRemotely.new.collect_jobs
       when 'remote_ok'
@@ -36,26 +36,26 @@ module RemoteJobScraper
       when '42jobs_rails'
         then Sites::JobsRails42.new.collect_jobs
       else
-        raise "#{service_name} is not correct. Use: #{AVAILABLE_SERVICES.join(', ')}."
+        raise "#{site} is not correct. Use: #{AVAILABLE_SITES.join(', ')}."
       end
     end
 
-    desc 'generate_summary', 'Collect all data and export to XLS file'
+    desc 'generate_summary', "Merges data from #{AVAILABLE_SITES.join(', ')} and exports to XLS file"
     def generate_summary
       Support::SpreadsheetCreator.generate
     end
 
-    desc 'clean_up', 'Removes all stored data'
-    def clean_up
-      puts "This command will remote all stored data."
+    desc 'remove DIRNAME', "Removes DIRNAME (default: 'data'). Use carefully."
+    def remove(dirname = 'data')
+      puts "[Warning!]"
+      puts "This command will remove #{Dir.pwd}/#{dirname} permanently"
       puts "Press Ctrl-C to abort."
 
-      sleep 2
+      sleep 3
 
-      FileUtils.rm_rf('data')
-      puts "Removed data."
+      FileUtils.rm_rf(dirname)
+      puts "Removed data in #{Dir.pwd}/#{dirname}."
     end
-
   end
 
   def self.root

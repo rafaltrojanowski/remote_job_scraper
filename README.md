@@ -7,28 +7,16 @@ Going through many job listings and finding the right one may be a time-consumin
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'remote_job_scraper'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
     $ gem install remote_job_scraper
 
 ## Usage
 
     $ bundle exec exe/remote_job_scraper
 
-
 * Tested with Ruby versions:
 
   * [x] 2.4.1
+  * [x] 2.0.0
 
 ## Development
 
@@ -38,7 +26,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/remote_job_scraper. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/rafaltrojanowski/remote_job_scraper. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
