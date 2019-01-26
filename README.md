@@ -11,7 +11,7 @@ Going through many job listings and finding the right one may be a time-consumin
 
 ## Usage
 
-    $ bundle exec exe/remote_job_scraper
+    $ remote_job_scraper
 
 * Tested with Ruby versions:
 
