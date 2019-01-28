@@ -19,11 +19,11 @@ module Support
       indexes.each do |index|
         next if index[0].nil?
 
-        locations << tokens[index[0] + 1].gsub(',', '') if index[1] == 'location'
-        locations << tokens[index[0] - 1].gsub(',', '') if index[1] == 'based'
+        locations << tokens[index[0] + 1] if index[1] == 'location'
+        locations << tokens[index[0] - 1..index[0] + 2] if index[1] == 'based'
       end
 
-      locations.join(', ').capitalize
+      locations.join(' ').capitalize
     end
 
     def self.get_keywords(content, keywords = KEYWORDS)
@@ -45,6 +45,7 @@ module Support
         .gsub('.', '')
         .gsub(',', '')
         .gsub(':', '')
+        .gsub(/[(){}\[\]]/, "") # removes (), {} and []
         .downcase
         .split(/[\s-]/)
     end

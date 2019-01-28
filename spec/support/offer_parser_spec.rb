@@ -28,6 +28,13 @@ We’re looking for a full time UK-based, permanent addition to the technical te
 '''
   }
 
+  let(:exampe_5) {
+'''
+Avalution is looking for a passionate senior or lead developer to join our full stack dev team based in Cleveland, Ohio. If you enjoy working on new challenges daily and are comfortable in a dynamic environment, if you have an eye for great UX, are driven to learn new technologies and care deeply about quality, if you interact effectively in a team environment and take ownership for and pride in your work – then we would love to hear from you!
+'''
+  }
+
+
   describe 'get_location' do
     context 'example 1' do
       it 'returns location' do
@@ -49,7 +56,13 @@ We’re looking for a full time UK-based, permanent addition to the technical te
 
     context 'when UK-based' do
       it 'returns Uk' do
-        expect(Support::OfferParser.get_location(exampe_4)).to eq('Uk')
+        expect(Support::OfferParser.get_location(exampe_4)).to eq('Uk based permanent addition')
+      end
+    end
+
+    context 'when example 5' do
+      it 'returns Uk' do
+        expect(Support::OfferParser.get_location(exampe_5)).to eq('Team based in cleveland')
       end
     end
   end
