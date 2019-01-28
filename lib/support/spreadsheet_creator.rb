@@ -3,13 +3,15 @@ require 'spreadsheet'
 module Support
   module SpreadsheetCreator
 
-    def self.generate(path: 'data/summary/', filename: 'remote_job_summary_.xls')
+    def self.generate(base_path: 'data/summary/', filename: 'remote_job_summary.xls')
       Spreadsheet.client_encoding = 'UTF-8'
       book = Spreadsheet::Workbook.new
 
       dirnames.each_with_index do |dirname, index|
         file = Dir.glob(dirname).first
         sheet = book.create_worksheet name: dirname.split("/")[-2]
+        column_width.each { |idx, width| sheet.column(idx).width = width }
+
         next if file.nil?
 
         CSV.foreach(file).with_index(0) do |row, index|
@@ -17,10 +19,24 @@ module Support
         end
       end
 
-      FileUtils.mkdir_p absolute_path(path)
+      FileUtils.mkdir_p absolute_path(base_path)
+      book.write filepath(base_path, filename)
+    end
 
-      book.write absolute_path(path).concat(
-        Time.now.strftime("%Y%m%d%H%M%S").concat('_remote_jobs_summary.xls')
+    def self.column_width
+      {
+        0 => 90,
+        1 => 20,
+        2 => 20,
+        3 => 20
+      }
+    end
+
+    def self.filepath(path, filename)
+      absolute_path(path).concat(
+        Time.now.strftime("%Y%m%d%H%M%S")
+          .concat('_')
+          .concat(filename)
       )
     end
 
