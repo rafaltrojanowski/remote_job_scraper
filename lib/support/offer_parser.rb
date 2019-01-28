@@ -42,10 +42,7 @@ module Support
 
     def self.get_tokens(content)
       content
-        .gsub('.', '')
-        .gsub(',', '')
-        .gsub(':', '')
-        .gsub(/[(){}\[\]]/, "") # removes (), {} and []
+        .gsub(/\W+/, ' ') # remove non letters
         .downcase
         .split(/[\s-]/)
     end
