@@ -1,16 +1,17 @@
 module Sites
   class Base
 
-    attr_reader :job_type, :doc, :url
+    attr_reader :doc, :url
 
-    def initialize(job_type: :programming)
-      @job_type = job_type
-      @url = build_url
+    def initialize
+      @url = "#{self.class::HOST}#{self.class::PATH}"
       @doc = Nokogiri::HTML(open_page(@url))
       @current_time = Time.new
       @timestamp = @current_time.strftime("%Y%m%d%H%M%S")
       @count = get_count
     end
+
+    private
 
     def open_page(url)
       sleep(rand(0..2.0)) unless ENV['RAILS_ENV'] == 'test' # less mechanical behaviour
@@ -18,21 +19,8 @@ module Sites
       open(url, options)
     end
 
-    private
-
     def user_agent
       Support::UserAgent::LIST.sample
-    end
-
-    def build_url
-      case job_type
-        when :programming
-          then "#{self.class::HOST}#{self.class::PROGRAMMING}"
-        when :devops
-          then "#{self.class::HOST}#{self.class::DEVOPS}"
-        else
-          raise "Error"
-        end
     end
 
     def filepath

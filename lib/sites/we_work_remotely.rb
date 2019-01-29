@@ -4,13 +4,13 @@ module Sites
   class WeWorkRemotely < Base
 
     HOST = 'https://weworkremotely.com'.freeze
-    PROGRAMMING = '/categories/remote-programming-jobs'.freeze
+    PATH = '/categories/remote-programming-jobs'.freeze
     DEVOPS     = '/categories/remote-devops-sysadmin-jobs'.freeze
     JOB_ITEM_SELECTOR = '.jobs-container li a'.freeze
     STORE_DIR = 'data/we_work_remotely'
 
-    def initialize(args = {})
-      super(args = {})
+    def initialize
+      super
     end
 
     def collect_jobs

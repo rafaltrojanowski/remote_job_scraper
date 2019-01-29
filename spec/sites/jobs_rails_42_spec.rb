@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Sites::JobsRails42 do
 
-  subject { described_class.new() }
+  subject { described_class.new }
   let(:output_file) { Dir.glob('spec/fixtures/data/jobs_rails42/*').first }
 
   after do

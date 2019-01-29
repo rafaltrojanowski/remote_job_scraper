@@ -1,24 +1,21 @@
 module Sites
   class JobsRails42 < Base
 
-    # @TODO/NOTE: There is pagination on this site, it would be cool to find a way
-    # to grab more offers than just first page (25 items)
-
-    # I had to rename this class because we are not allowed to have numbers
+    # @NOTE: I had to rename this class because we are not allowed to have numbers
     # on the beginning of the class name (42JobsRails won't work).
+    # file paths follow this convention
 
     HOST = 'https://www.42jobs.io'.freeze
-    PROGRAMMING = '/rails/jobs-remote'.freeze
+    PATH = '/rails/jobs-remote'.freeze
     JOB_ITEM_SELECTOR = 'li.job-offers__item a'.freeze
     STORE_DIR = 'data/jobs_rails42'.freeze
 
-    def initialize(job_type: :programming, total_pages: 4)
-      @job_type = job_type
-      @url = build_url
-      @doc = nil
+    def initialize
+      @url = "#{self.class::HOST}#{self.class::PATH}"
       @current_time = Time.new
       @timestamp = @current_time.strftime("%Y%m%d%H%M%S")
-      @total_pages = total_pages
+      @doc = nil
+      @total_pages = 4
       @count = get_count
     end
 

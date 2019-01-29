@@ -4,12 +4,12 @@ module Sites
   class RemoteOk < Base
 
     HOST = 'https://remoteok.io'.freeze
-    PROGRAMMING = '/remote-dev-jobs'.freeze
+    PATH = '/remote-dev-jobs'.freeze
     JOB_ITEM_SELECTOR = 'tr.job'.freeze
     STORE_DIR = 'data/remote_ok'.freeze
 
-    def initialize(args = {})
-      super(args = {})
+    def initialize
+      super
     end
 
     def collect_jobs
