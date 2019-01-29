@@ -40,13 +40,9 @@ module Sites
         doc.css(JOB_ITEM_SELECTOR).each do |link|
           job_url = "#{HOST}#{link["href"]}"
           puts "[Info] Processing #{job_url}..."
-          job_page = Nokogiri::HTML(open_page(job_url))
-          offer_text = job_page.css('.job-offer__description').to_s
 
-          location = Support::OfferParser.get_location(offer_text)
-          keywords = Support::OfferParser.get_keywords(offer_text)
 
-          csv << [job_url, location, keywords]
+          csv << get_row(job_url)
         end
       end
 
@@ -54,6 +50,17 @@ module Sites
     end
 
     private
+
+    def get_row(job_url)
+      job_page = Nokogiri::HTML(open_page(job_url))
+      offer_text = job_page.css('.job-offer__description').to_s
+
+      location = Support::OfferParser.get_location(offer_text)
+      keywords = Support::OfferParser.get_keywords(offer_text)
+      company = job_page.css('.job-offer__summary a').text
+
+      [job_url, location, keywords, company]
+    end
 
     def get_count
       25 * @total_pages

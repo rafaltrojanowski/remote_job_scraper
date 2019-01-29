@@ -22,15 +22,8 @@ module Sites
           if link["href"].start_with?("/remote-jobs")
             job_url = "#{HOST}#{link["href"]}"
             puts "[Info] Processing #{job_url}..."
-            job_page = Nokogiri::HTML(open_page(job_url))
-            offer_text = job_page.css('.listing-container').to_s
 
-            region = job_page.css('span.region').first
-            location = job_page.css('span.location').first
-
-            keywords = Support::OfferParser.get_keywords(offer_text)
-
-            csv << [job_url, location, region, keywords]
+            csv << get_row(job_url)
           end
         end
       end
@@ -39,6 +32,18 @@ module Sites
     end
 
     private
+
+    def get_row(job_url)
+      job_page = Nokogiri::HTML(open_page(job_url))
+      offer_text = job_page.css('.listing-container').to_s
+
+      region = job_page.css('.listing-header-container span.region').first
+      location = job_page.css('.listing-header-container span.location').first
+      keywords = Support::OfferParser.get_keywords(offer_text)
+      company = job_page.css('.listing-header-container span.company').first
+
+      [job_url, location, region, keywords, company]
+    end
 
     def get_count
       count = doc.css(JOB_ITEM_SELECTOR)

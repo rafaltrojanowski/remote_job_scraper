@@ -16,9 +16,20 @@ RSpec.describe Sites::JobsRails42 do
       end
     end
 
-    it 'stores data in CSV file' do
+    it 'writes data to CSV file' do
       rows = CSV.foreach(output_file).map(&:each)
-      expect(rows.size).to eq(250)
+      expect(rows.size).to eq(100)
+    end
+
+    it 'stores data in a row' do
+      rows = CSV.foreach(output_file).map(&:each)
+      expect(rows.first.to_a).to eq(
+        ["https://www.42jobs.io/rails/jobs/5006-ruby-on-rails-developer",
+         "11 based in australia",
+         "Ruby, Remote",
+         "SmartrMail"
+        ]
+      )
     end
   end
 end

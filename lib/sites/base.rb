@@ -14,12 +14,8 @@ module Sites
 
     def open_page(url)
       sleep(rand(0..2.0)) unless ENV['RAILS_ENV'] == 'test' # less mechanical behaviour
-
-      if ENV['RAILS_ENV'] == 'test'
-        open(url)
-      else
-        open(url, 'User-Agent' => user_agent)
-      end
+      options = ENV['RAILS_ENV'] == 'test' ? {} : { 'User-Agent' => user_agent }
+      open(url, options)
     end
 
     private

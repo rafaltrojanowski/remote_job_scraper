@@ -20,17 +20,23 @@ module Sites
         doc.css(JOB_ITEM_SELECTOR).each do |link|
           job_url = "#{HOST}#{link["data-url"]}"
           puts "[Info] Processing #{job_url}..."
-          job_page = Nokogiri::HTML(open_page(job_url))
-          offer_text = job_page.css('td.heading').to_s
 
-          location = Support::OfferParser.get_location(offer_text)
-          keywords = Support::OfferParser.get_keywords(offer_text)
-
-          csv << [job_url, location, keywords]
+          csv << get_row(job_url)
         end
       end
 
       puts "[Done] Collected #{@count} job offers from #{url}. Data stores in: #{filepath}."
+    end
+
+    def get_row(job_url)
+      job_page = Nokogiri::HTML(open_page(job_url))
+      offer_text = job_page.css('td.heading').to_s
+
+      location = Support::OfferParser.get_location(offer_text)
+      keywords = Support::OfferParser.get_keywords(offer_text)
+      company = job_page.css('a.companyLink h3').text
+
+      [job_url, location, keywords, company]
     end
 
     private
