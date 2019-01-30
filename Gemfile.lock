@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    remote_job_scraper (0.4.3)
+    remote_job_scraper (0.4.4)
       nokogiri
       spreadsheet
       thor
