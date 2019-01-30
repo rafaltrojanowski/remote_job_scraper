@@ -1,4 +1,6 @@
 require 'remote_job_scraper/version'
+require 'remote_job_scraper/configuration'
+require 'remote_job_scraper/cli'
 
 require 'sites/we_work_remotely'
 require 'sites/remote_ok'
@@ -11,58 +13,23 @@ require 'support/spreadsheet_creator'
 require 'nokogiri'
 require 'open-uri'
 require 'csv'
-require "thor"
 
 module RemoteJobScraper
 
-  AVAILABLE_SITES = %w(we_work_remotely remote_ok 42jobs_rails)
+  class << self
+    attr_accessor :configuration
+  end
 
-  class CLI < Thor
+  def self.configuration
+    @configuration ||= Configuration.new
+  end
 
-    desc 'collect_jobs LIMIT', "Retrieves data from #{AVAILABLE_SITES.join(', ')}"
-    def collect_jobs(limit = nil)
-      limit = limit.to_i
-      limit = limit.zero? ? nil : limit
+  def self.reset
+    @configuration = Configuration.new
+  end
 
-      [
-        Sites::WeWorkRemotely,
-        Sites::RemoteOk,
-        Sites::JobsRails42
-      ].each do |klass|
-        klass.new.collect_jobs(limit: limit)
-      end
-    end
-
-    desc 'collect_jobs_from SITE', "Retrieves data from SITE, e.g. #{AVAILABLE_SITES.sample}"
-    def collect_jobs_from(site)
-      case site
-      when 'we_work_remotely'
-        then Sites::WeWorkRemotely.new.collect_jobs
-      when 'remote_ok'
-        then Sites::RemoteOk.new.collect_jobs
-      when '42jobs_rails'
-        then Sites::JobsRails42.new.collect_jobs
-      else
-        raise "#{site} is not correct. Use: #{AVAILABLE_SITES.join(', ')}."
-      end
-    end
-
-    desc 'generate_summary', "Merges data from #{AVAILABLE_SITES.join(', ')} and exports to XLS file"
-    def generate_summary
-      Support::SpreadsheetCreator.generate
-    end
-
-    desc 'remove DIRNAME', "Removes DIRNAME (default: 'data'). Use carefully."
-    def remove(dirname = 'data')
-      puts "[Warning!]"
-      puts "This command will remove #{Dir.pwd}/#{dirname} permanently"
-      puts "Press Ctrl-C to abort."
-
-      sleep 3
-
-      FileUtils.rm_rf(dirname)
-      puts "Removed data in #{Dir.pwd}/#{dirname}."
-    end
+  def self.configure
+    yield(configuration)
   end
 
   def self.root

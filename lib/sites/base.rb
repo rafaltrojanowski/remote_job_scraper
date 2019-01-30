@@ -15,9 +15,13 @@ module Sites
     private
 
     def open_page(url)
-      sleep(rand(0..2.0)) unless ENV['RAILS_ENV'] == 'test' # less mechanical behaviour
+      sleep(rand(delay_range)) unless ENV['RAILS_ENV'] == 'test' # less mechanical behaviour
       options = ENV['RAILS_ENV'] == 'test' ? {} : { 'User-Agent' => user_agent }
       open(url, options)
+    end
+
+    def delay_range
+      RemoteJobScraper.configuration.delay_range
     end
 
     def user_agent
