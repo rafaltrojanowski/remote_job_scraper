@@ -16,7 +16,7 @@ module Sites
       @timestamp = @current_time.strftime("%Y%m%d%H%M%S")
       @doc = nil
       @total_pages = 4
-      @count = get_count
+      @jobs_count = get_jobs_count
     end
 
     def collect_jobs
@@ -43,10 +43,8 @@ module Sites
         end
       end
 
-      puts "[Done] Collected #{@count} job offers from #{url}. Data stores in: #{filepath}." if page == @total_pages
+      puts "[Done] Collected #{@jobs_count} job offers from #{url}. Data stored in: #{filepath}." if page == @total_pages
     end
-
-    private
 
     def get_row(job_url)
       job_page = Nokogiri::HTML(open_page(job_url))
@@ -59,7 +57,7 @@ module Sites
       [job_url, location, keywords, company]
     end
 
-    def get_count
+    def get_jobs_count
       25 * @total_pages
     end
   end

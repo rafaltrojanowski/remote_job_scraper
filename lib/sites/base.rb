@@ -1,14 +1,15 @@
 module Sites
   class Base
 
-    attr_reader :doc, :url
+    attr_reader :doc, :url, :rows_count, :jobs_count
 
     def initialize
       @url = "#{self.class::HOST}#{self.class::PATH}"
       @doc = Nokogiri::HTML(open_page(@url))
       @current_time = Time.new
       @timestamp = @current_time.strftime("%Y%m%d%H%M%S")
-      @count = get_count
+      @rows_count = 0
+      @jobs_count = get_jobs_count
     end
 
     private

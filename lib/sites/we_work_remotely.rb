@@ -13,7 +13,7 @@ module Sites
       super
     end
 
-    def collect_jobs
+    def collect_jobs(limit: nil)
       puts "[Info] Getting the data from #{url} at #{@current_time}..."
       FileUtils.mkdir_p STORE_DIR
 
@@ -24,11 +24,15 @@ module Sites
             puts "[Info] Processing #{job_url}..."
 
             csv << get_row(job_url)
+            @rows_count += 1
+
+            limit -= 1 if limit
+            return if limit == 0
           end
         end
       end
 
-      puts "[Done] Collected #{@count} job offers from #{url}. Data stores in: #{filepath}."
+      puts "[Done] Collected #{@rows_count} job offers from #{url}. Data stored in: #{filepath}."
     end
 
     private
@@ -45,13 +49,13 @@ module Sites
       [job_url, location, region, keywords, company]
     end
 
-    def get_count
-      count = doc.css(JOB_ITEM_SELECTOR)
+    def get_jobs_count
+      jobs_count = doc.css(JOB_ITEM_SELECTOR)
         .map { |link| link['href'] }
         .select { |href| href.start_with?('/remote-jobs') }
         .size
-      puts "[Info] There is #{count} remote jobs available."
-      count
+      puts "[Info] There is #{jobs_count} remote jobs available."
+      jobs_count
     end
   end
 end

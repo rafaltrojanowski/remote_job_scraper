@@ -55,13 +55,13 @@ Avalution is looking for a passionate senior or lead developer to join our full 
     end
 
     context 'when UK-based' do
-      it 'returns Uk' do
+      it 'returns info about location (Uk based)' do
         expect(Support::OfferParser.get_location(exampe_4)).to eq('Uk based permanent addition')
       end
     end
 
     context 'when example 5' do
-      it 'returns Uk' do
+      it 'returns info about location (based in cleveland)' do
         expect(Support::OfferParser.get_location(exampe_5)).to eq('Team based in cleveland')
       end
     end

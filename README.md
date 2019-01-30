@@ -2,7 +2,7 @@
 
 Ruby gem that collects job offers for remote positions with ease.
 
-Going through many job listings and finding the right one may be a time-consuming process. That's why this tool has been built. It allows to automate the process, retrieve necessary data and store it in CSV/Excel file in just a few minutes. The main focus is to inform a user about the location (time-zone) required for a position.
+Going through many job listings and finding the right one may be a time-consuming process. That's why this tool has been built. It allows to automate the process, retrieve necessary data and store it in CSV/Excel file in just a few minutes. The main focus is to inform an user about the location (time-zone) required for a position.
 
 ![screenshot](http://i67.tinypic.com/2ewfj3a.png)
 
@@ -18,6 +18,21 @@ Going through many job listings and finding the right one may be a time-consumin
 
   * [x] 2.4.1
   * [ ] 2.0.0 (https://github.com/rafaltrojanowski/remote_job_scraper/issues/1)
+
+## Running test
+
+Running test:
+
+```
+$ rspec spec
+```
+
+A few tests run very slow because they parse a huge amount of pages.
+You can skip slow tests by running:
+
+```
+$ rspec . --tag ~speed:slow
+```
 
 ## Development
 
