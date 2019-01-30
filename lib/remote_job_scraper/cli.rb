@@ -70,6 +70,8 @@ module RemoteJobScraper
 
       FileUtils.rm_rf(dirname)
       puts "Removed data in #{Dir.pwd}/#{dirname}."
+    rescue Interrupt => e
+      exit
     end
   end
 end
