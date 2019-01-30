@@ -12,34 +12,39 @@ module Sites
 
     def initialize
       @url = "#{self.class::HOST}#{self.class::PATH}"
-      @current_time = Time.new
+      @current_time = Time.now
       @timestamp = @current_time.strftime("%Y%m%d%H%M%S")
       @doc = nil
       @total_pages = 4
+      @rows_count = 0
       @jobs_count = get_jobs_count
     end
 
-    def collect_jobs
-      (1..@total_pages).to_a.each do |page|
-        current_page = "#{@url}?page=#{page}"
-        doc = Nokogiri::HTML(open_page(current_page))
-        process_page(doc, current_page, page)
+    def collect_jobs(limit: nil)
+      FileUtils.mkdir_p STORE_DIR
+
+      (1..@total_pages).each do |page|
+        process_page(page: page, limit: limit)
       end
     end
 
     private
 
-    def process_page(doc, page_url, page)
-      puts "[Info] Getting the data from #{page_url} at #{@current_time}..."
-      FileUtils.mkdir_p STORE_DIR
+    def process_page(page:, limit:)
+      current_page = "#{@url}?page=#{page}"
+      doc = Nokogiri::HTML(open_page(current_page))
+      puts "[Info] Getting the data from #{current_page}"
 
       CSV.open(filepath, 'ab') do |csv|
         doc.css(JOB_ITEM_SELECTOR).each do |link|
-          job_url = "#{HOST}#{link["href"]}"
-          puts "[Info] Processing #{job_url}..."
+          return if limit == @rows_count
 
+          job_url = "#{HOST}#{link["href"]}"
+          puts "[Info] Parsing #{job_url}..."
 
           csv << get_row(job_url)
+
+          @rows_count += 1
         end
       end
 
@@ -58,7 +63,9 @@ module Sites
     end
 
     def get_jobs_count
-      25 * @total_pages
+      jobs_count = 25 * @total_pages
+      puts "[Info] There are #{jobs_count} remote jobs on [42JobsRails]."
+      jobs_count
     end
   end
 end

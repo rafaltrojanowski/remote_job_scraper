@@ -19,10 +19,17 @@ module RemoteJobScraper
 
   class CLI < Thor
 
-    desc 'collect_jobs', "Retrieves data from #{AVAILABLE_SITES.join(', ')}"
-    def collect_jobs
-      [Sites::WeWorkRemotely, Sites::RemoteOk].each do |klass|
-        klass.new.collect_jobs
+    desc 'collect_jobs LIMIT', "Retrieves data from #{AVAILABLE_SITES.join(', ')}"
+    def collect_jobs(limit = nil)
+      limit = limit.to_i
+      limit = limit.zero? ? nil : limit
+
+      [
+        Sites::WeWorkRemotely,
+        Sites::RemoteOk,
+        Sites::JobsRails42
+      ].each do |klass|
+        klass.new.collect_jobs(limit: limit)
       end
     end
 

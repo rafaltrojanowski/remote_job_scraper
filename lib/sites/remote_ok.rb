@@ -13,19 +13,19 @@ module Sites
     end
 
     def collect_jobs(limit: nil)
-      puts "[Info] Getting the data from #{url} at #{@current_time}..."
+      puts "[Info] Getting the data from #{url}"
       FileUtils.mkdir_p STORE_DIR
 
       CSV.open(filepath, 'w') do |csv|
         doc.css(JOB_ITEM_SELECTOR).each do |link|
+          return if limit == @rows_count
+
           job_url = "#{HOST}#{link["data-url"]}"
-          puts "[Info] Processing #{job_url}..."
+          puts "[Info] Parsing #{job_url}..."
 
           csv << get_row(job_url)
-          @rows_count += 1
 
-          limit -= 1 if limit
-          return if limit == 0
+          @rows_count += 1
         end
       end
 
@@ -47,7 +47,7 @@ module Sites
 
     def get_jobs_count
       jobs_count = doc.css(JOB_ITEM_SELECTOR).map { |link| link['data-url'] }.size
-      puts "[Info] There is #{jobs_count} remote jobs available."
+      puts "[Info] There are #{jobs_count} remote jobs on [RemoteOK]."
       jobs_count
     end
   end

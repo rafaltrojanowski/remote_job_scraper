@@ -6,7 +6,7 @@ module Sites
     def initialize
       @url = "#{self.class::HOST}#{self.class::PATH}"
       @doc = Nokogiri::HTML(open_page(@url))
-      @current_time = Time.new
+      @current_time = Time.now
       @timestamp = @current_time.strftime("%Y%m%d%H%M%S")
       @rows_count = 0
       @jobs_count = get_jobs_count
