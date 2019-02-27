@@ -5,6 +5,14 @@ module RemoteJobScraper
 
     AVAILABLE_SITES = %w(we_work_remotely remote_ok 42jobs_rails)
 
+    desc 'collect_companies',
+      "Retrieves remote companies
+       [Example]: remote_job_scraper collect_companies
+      "
+    def collect_companies
+      Sites::GithubRemoteJobs.new.collect_companies
+    end
+
     desc 'collect_jobs LIMIT DELAY',
       "Retrieves data from #{AVAILABLE_SITES.join(', ')}.
        [Example]: remote_job_scraper collect_jobs 10 9.0..10.0

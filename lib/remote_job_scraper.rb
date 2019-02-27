@@ -5,6 +5,7 @@ require 'remote_job_scraper/cli'
 require 'sites/we_work_remotely'
 require 'sites/remote_ok'
 require 'sites/jobs_rails42'
+require 'sites/github_remote_jobs'
 
 require 'support/offer_parser'
 require 'support/user_agent'
