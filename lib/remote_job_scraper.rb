@@ -6,6 +6,7 @@ require 'sites/we_work_remotely'
 require 'sites/remote_ok'
 require 'sites/jobs_rails42'
 require 'sites/github_remote_jobs'
+require 'sites/elixir_companies'
 
 require 'support/offer_parser'
 require 'support/user_agent'
