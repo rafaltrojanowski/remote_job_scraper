@@ -5,12 +5,20 @@ module RemoteJobScraper
 
     AVAILABLE_SITES = %w(we_work_remotely remote_ok 42jobs_rails)
 
-    desc 'collect_companies',
+    desc 'collect_remote_companies',
       "Retrieves remote companies
-       [Example]: remote_job_scraper collect_companies
+       [Example]: remote_job_scraper collect_remote_companies
       "
-    def collect_companies
+    def collect_remote_companies
       Sites::GithubRemoteJobs.new.collect_companies
+    end
+
+    desc 'collect_elixir_companies',
+      "Retrieves Elixir companies
+       [Example]: remote_job_scraper collect_elixir_companies
+      "
+    def collect_elixir_companies
+      Sites::ElixirCompanies.new.collect_companies
     end
 
     desc 'collect_jobs LIMIT DELAY',
