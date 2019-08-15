@@ -55,14 +55,27 @@ module Sites
       # A bit ugly way to get a data between span elements
       array = company_info.text.split("\n").select do |element|
         element =~ /[a-zA-Z]/
-      end.map!(&:strip)
+      end.map!(&:strip).delete_if do |element|
+        element == "GitHub" || element == "Add a job"
+      end
+
+      has_blog = array[2] && (array[2].include?("/") || array[2].include?("blog"))
 
       industry = array[0]
       company_website = array[1]
-      blog = array[2]
-      location = array[4]
+      is_hiring = company_box["class"].include?("has-ribbon")
 
-      [company_title, industry, company_website, blog, location]
+      if has_blog
+        blog = array[2]
+        location = array[4]
+      else
+        blog = nil
+        location = array[2]
+      end
+
+      row = [company_title, industry, company_website, blog, location]
+      hiring = is_hiring ? "Hiring!" : nil
+      row.push hiring
     end
 
     def get_jobs_count
