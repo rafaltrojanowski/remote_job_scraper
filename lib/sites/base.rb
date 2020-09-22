@@ -17,7 +17,7 @@ module Sites
     def open_page(url)
       sleep(rand(delay_range)) unless ENV['RAILS_ENV'] == 'test' # less mechanical behaviour
       options = ENV['RAILS_ENV'] == 'test' ? {} : { 'User-Agent' => user_agent }
-      open(url, options)
+      URI.open(url, options)
     end
 
     def delay_range
