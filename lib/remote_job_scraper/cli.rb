@@ -21,13 +21,14 @@ module RemoteJobScraper
       Sites::ElixirCompanies.new.collect_companies
     end
 
-    desc 'collect_jobs LIMIT DELAY',
+    desc 'collect_jobs LIMIT DELAY KEYWORDS',
       "Retrieves data from #{AVAILABLE_SITES.join(', ')}.
-       [Example]: remote_job_scraper collect_jobs 10 9.0..10.0
+       [Example]: remote_job_scraper collect_jobs 10 9.0..10.0 ruby,react
       "
-    def collect_jobs(limit = nil, delay = nil)
+    def collect_jobs(limit = nil, delay = nil, keywords = nil)
       limit = limit.to_i
       limit = limit.zero? ? nil : limit
+      keywords = keywords.split(',')
 
       begin
         unless delay.nil?
@@ -44,7 +45,7 @@ module RemoteJobScraper
         Sites::RemoteOk,
         Sites::JobsRails42
       ].each do |klass|
-        klass.new.collect_jobs(limit: limit)
+        klass.new.collect_jobs(limit: limit, keywords: keywords)
       end
     end
 

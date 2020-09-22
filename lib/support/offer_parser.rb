@@ -26,7 +26,8 @@ module Support
       locations.join(' ').capitalize
     end
 
-    def self.get_keywords(content, keywords = KEYWORDS)
+    def self.get_keywords(content, keywords)
+      keywords = keywords || KEYWORDS
       indexes = Array.new
       tokens = get_tokens(content)
       indexes = keywords.map { |q| [tokens.find_index(q), q] }

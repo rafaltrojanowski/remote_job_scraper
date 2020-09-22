@@ -20,17 +20,17 @@ module Sites
       @jobs_count = get_jobs_count
     end
 
-    def collect_jobs(limit: nil)
+    def collect_jobs(limit: nil, keywords: nil)
       FileUtils.mkdir_p STORE_DIR
 
       (1..@total_pages).each do |page|
-        process_page(page: page, limit: limit)
+        process_page(page: page, limit: limit, keywords: keywords)
       end
     end
 
     private
 
-    def process_page(page:, limit:)
+    def process_page(page:, limit:, keywords: nil)
       current_page = "#{@url}?page=#{page}"
       doc = Nokogiri::HTML(open_page(current_page))
       puts "[Info] Getting the data from #{current_page}"
@@ -42,7 +42,7 @@ module Sites
           job_url = "#{HOST}#{link["href"]}"
           puts "[Info] Parsing #{job_url}..."
 
-          csv << get_row(job_url)
+          csv << get_row(job_url, keywords)
 
           @rows_count += 1
         end
@@ -51,12 +51,12 @@ module Sites
       puts "[Done] Collected #{@jobs_count} job offers from #{url}. Data stored in: #{filepath}." if page == @total_pages
     end
 
-    def get_row(job_url)
+    def get_row(job_url, keywords)
       job_page = Nokogiri::HTML(open_page(job_url))
       offer_text = job_page.css('.job-offer__description').to_s
 
       location = Support::OfferParser.get_location(offer_text)
-      keywords = Support::OfferParser.get_keywords(offer_text)
+      keywords = Support::OfferParser.get_keywords(offer_text, keywords)
       company = job_page.css('.job-offer__summary a').text
 
       [job_url, location, keywords, company]

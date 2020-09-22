@@ -12,7 +12,7 @@ module Sites
       super
     end
 
-    def collect_jobs(limit: nil)
+    def collect_jobs(limit: nil, keywords: nil)
       puts "[Info] Getting the data from #{url}"
       FileUtils.mkdir_p STORE_DIR
 
@@ -23,7 +23,7 @@ module Sites
           job_url = "#{HOST}#{link["data-url"]}"
           puts "[Info] Parsing #{job_url}..."
 
-          csv << get_row(job_url)
+          csv << get_row(job_url, keywords)
 
           @rows_count += 1
         end
@@ -34,12 +34,12 @@ module Sites
 
     private
 
-    def get_row(job_url)
+    def get_row(job_url, keywords)
       job_page = Nokogiri::HTML(open_page(job_url))
       offer_text = job_page.css('td.heading').to_s
 
       location = Support::OfferParser.get_location(offer_text)
-      keywords = Support::OfferParser.get_keywords(offer_text)
+      keywords = Support::OfferParser.get_keywords(offer_text, keywords)
       company = job_page.css('a.companyLink h3').text
 
       [job_url, location, keywords, company]
