@@ -21,6 +21,8 @@ module Support
 
       FileUtils.mkdir_p absolute_path(base_path)
       book.write filepath(base_path, filename)
+
+      puts "[Info] Done. Stored in #{base_path}."
     end
 
     def self.column_width
