@@ -12,6 +12,19 @@ module Sites
       @jobs_count = get_jobs_count
     end
 
+    def collect_jobs(limit: nil, keywords: nil)
+      puts "[Info] Getting the data from #{url}"
+      FileUtils.mkdir_p self.class::STORE_DIR
+
+      CSV.open(filepath, 'w') do |csv|
+        doc.css(self.class::JOB_ITEM_SELECTOR).each do |link|
+          yield(csv, link)
+        end
+      end
+
+      puts "[Done] Collected #{@rows_count} job offers from #{url}. Data stored in: #{filepath}."
+    end
+
     private
 
     def open_page(url)

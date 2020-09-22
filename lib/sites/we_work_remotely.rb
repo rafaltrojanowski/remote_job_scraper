@@ -7,28 +7,23 @@ module Sites
     PATH = '/categories/remote-programming-jobs'.freeze
     DEVOPS     = '/categories/remote-devops-sysadmin-jobs'.freeze
     JOB_ITEM_SELECTOR = '.jobs-container li a'.freeze
-    STORE_DIR = 'data/we_work_remotely'
+    STORE_DIR = 'data/we_work_remotely'.freeze
 
     def initialize
       super
     end
 
     def collect_jobs(limit: nil, keywords: nil)
-      puts "[Info] Getting the data from #{url}"
-      FileUtils.mkdir_p STORE_DIR
+      super do |csv, link|
+        if link["href"].start_with?("/remote-jobs")
+          return if limit == @rows_count
 
-      CSV.open(filepath, 'w') do |csv|
-        doc.css(JOB_ITEM_SELECTOR).each do |link|
-          if link["href"].start_with?("/remote-jobs")
-            return if limit == @rows_count
+          job_url = "#{HOST}#{link["href"]}"
+          puts "[Info] Parsing #{job_url}..."
 
-            job_url = "#{HOST}#{link["href"]}"
-            puts "[Info] Parsing #{job_url}..."
+          csv << get_row(job_url, keywords)
 
-            csv << get_row(job_url, keywords)
-
-            @rows_count += 1
-          end
+          @rows_count += 1
         end
       end
 

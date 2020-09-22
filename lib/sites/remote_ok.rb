@@ -13,23 +13,16 @@ module Sites
     end
 
     def collect_jobs(limit: nil, keywords: nil)
-      puts "[Info] Getting the data from #{url}"
-      FileUtils.mkdir_p STORE_DIR
+      super do |csv, link|
+        return if limit == @rows_count
 
-      CSV.open(filepath, 'w') do |csv|
-        doc.css(JOB_ITEM_SELECTOR).each do |link|
-          return if limit == @rows_count
+        job_url = "#{HOST}#{link["data-url"]}"
+        puts "[Info] Parsing #{job_url}..."
 
-          job_url = "#{HOST}#{link["data-url"]}"
-          puts "[Info] Parsing #{job_url}..."
+        csv << get_row(job_url, keywords)
 
-          csv << get_row(job_url, keywords)
-
-          @rows_count += 1
-        end
+        @rows_count += 1
       end
-
-      puts "[Done] Collected #{@rows_count} job offers from #{url}. Data stored in: #{filepath}."
     end
 
     private
